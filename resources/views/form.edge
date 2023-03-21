@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdonisJS - A fully featured web framework for Node.js</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  @entryPointStyles('app')
+  @entryPointScripts('app')
+  <script src="../assets/bulma-calendar.js"></script>
+</head>
+
+<body>
+
+  <main>
+    <div class="container">
+      <h1 class="title"> HRscope </h1>
+      <form action="{{ route('MainsController.index') }}" method="POST">
+        <div class="field">
+          <label class="label">ชื่อ</label>
+          <div class="control">
+            <input class="input" name="name" type="text" placeholder="ชื่อ">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">นามสกุล</label>
+          <div class="control">
+            <input class="input" name="surname" type="text" placeholder="นามสกุล">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">วัน-เดือน-ปีเกิด</label>
+          <div class="control">
+            <input class="bulma-calendar" name="bdate" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">เลขบัตรประชาชน</label>
+          <div class="control">
+            <input class="input" type="text" inputmode="numeric" name="cid" maxlength="13" size="13"
+              placeholder="เลขบัตรประชาชน">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button class="button is-primary">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>
+
+<script>
+  var myCal = bulmaCalendar.attach('.bulma-calendar', {
+    type: 'datetime',
+    dateFormat: 'dd/MM/yyyy'
+  });
+</script>
