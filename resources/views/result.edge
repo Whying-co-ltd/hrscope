@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HRScope</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  @entryPointStyles('app')
+  @entryPointScripts('app')
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title"> Details </h1>
+        <h2> {{name}} {{surname}} {{bdate}} </h2>
+        <h2> {{cid}} </h2>
+        <h2> เดือนนักษัตร {{month_zodiac_name}} </h2>
+        <h2> เดือนปีนักษัตร {{year_zodiac_name}} </h2>
+      </div>
+    </div>
+    <h1 class="title">Assume ว่าเต็ม 40</h1>
+    <div class="columns">
+      <div class="column">
+        <h2> # </h2>
+        @each(mscore in score_for_month_zodiac)
+        <div class="column">
+          {{mscore.name}}
+        </div>
+        @end
+      </div>
+
+      <div class="column">
+        <h2> เดือน </h2>
+        @each(mscore in score_for_month_zodiac)
+        <div class="column">
+          {{mscore.score}}
+        </div>
+        @end
+      </div>
+      <div class="column">
+        <h2> ปี </h2>
+        @each(yscore in score_for_year_zodiac)
+        <div class="column">
+          {{yscore.score}}
+        </div>
+        @end
+      </div>
+      <div class="column">
+        <h2> Percentage </h2>
+        @each(pscore in score_for_percentage)
+        <div class="column">
+          {{pscore.score}} %
+        </div>
+        @end
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
