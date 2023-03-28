@@ -1,40 +1,70 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class MainsController {
-  public async index({ request, response, view }: HttpContextContract,) {
-    const data = request.only([
-      'name',
-      'surname',
-      'bdate',
-      'cid'
-    ])
-    const dateParts = data.bdate.split("/")
-    const day = parseInt(dateParts[0])
-    const month = parseInt(dateParts[1])
-    const year = parseInt(dateParts[2]) + 543
+//เหลือ compatability กับ คิด percentage
 
-    let month_num = await this.findMonthNum(day, month)
-    let year_num = await this.findYearNum(year)
-    let month_zodiac_name = await this.findZodiacName(month_num)
-    let year_zodiac_name = await this.findZodiacName(year_num)
-    let score_for_month = await this.scoreForPercentage(month_num)
-    let score_for_year = await this.scoreForPercentage(year_num)
-    let score_for_month_zodiac = await this.scoreForZodiac(month_num)
-    let score_for_year_zodiac = await this.scoreForZodiac(year_num)
-    let score_for_percentage = await this.findPercentage(score_for_month, score_for_year)
+export default class MainsController {
+  public async index({ request, response, view }: HttpContextContract) {
+    const data = request.only([
+      'name_1',
+      'surname_1',
+      'bdate_1',
+      'cid_1',
+      'name_2',
+      'surname_2',
+      'bdate_2',
+      'cid_2',
+    ])
+    const dateParts1 = data.bdate_1.split('/')
+    const day_1 = parseInt(dateParts1[0])
+    const month_1 = parseInt(dateParts1[1])
+    const year_1 = parseInt(dateParts1[2]) + 543
+
+    let month_num_1 = await this.findMonthNum(day_1, month_1)
+    let year_num_1 = await this.findYearNum(year_1)
+    let month_zodiac_name_1 = await this.findZodiacName(month_num_1)
+    let year_zodiac_name_1 = await this.findZodiacName(year_num_1)
+    let score_for_cid_1 = await this.scoreForCID(data.cid_1)
+    let score_for_month_1 = await this.scoreForPercentage(month_num_1)
+    let score_for_year_1 = await this.scoreForPercentage(year_num_1)
+    let score_for_month_zodiac_1 = await this.scoreForZodiac(month_num_1)
+    let score_for_year_zodiac_1 = await this.scoreForZodiac(year_num_1)
+    let score_for_percentage_1 = await this.findPercentage(
+      score_for_month_1,
+      score_for_year_1,
+      score_for_cid_1
+    )
+
+    const dateParts2 = data.bdate_2.split('/')
+    const day_2 = parseInt(dateParts2[0])
+    const month_2 = parseInt(dateParts2[1])
+    const year_2 = parseInt(dateParts2[2]) + 543
+
+    let month_num_2 = await this.findMonthNum(day_2, month_2)
+    let year_num_2 = await this.findYearNum(year_2)
+    let month_zodiac_name_2 = await this.findZodiacName(month_num_2)
+    let year_zodiac_name_2 = await this.findZodiacName(year_num_2)
 
     const result = {
-      'name': data.name,
-      'surname': data.surname,
-      'bdate': day + '/' + month + '/' + year,
-      'cid': data.cid,
-      'month_num': month_num,
-      'year_num': year_num,
-      'month_zodiac_name': month_zodiac_name,
-      'year_zodiac_name': year_zodiac_name,
-      'score_for_month_zodiac': score_for_month_zodiac,
-      'score_for_year_zodiac': score_for_year_zodiac,
-      'score_for_percentage': score_for_percentage
+      name_1: data.name_1,
+      surname_1: data.surname_1,
+      bdate_1: day_1 + '/' + month_1 + '/' + year_1,
+      cid_1: data.cid_1,
+      month_num_1: month_num_1,
+      year_num_1: year_num_1,
+      month_zodiac_name_1: month_zodiac_name_1,
+      year_zodiac_name_1: year_zodiac_name_1,
+      score_for_month_zodiac_1: score_for_month_zodiac_1,
+      score_for_year_zodiac_1: score_for_year_zodiac_1,
+      score_for_percentage_1: score_for_percentage_1,
+
+      name_2: data.name_2,
+      surname_2: data.surname_2,
+      bdate_2: day_2 + '/' + month_2 + '/' + year_2,
+      cid_2: data.cid_2,
+      month_num_2: month_num_2,
+      year_num_2: year_num_2,
+      month_zodiac_name_2: month_zodiac_name_2,
+      year_zodiac_name_2: year_zodiac_name_2,
     }
     // return response.ok(result)
     return view.render('result', result)
@@ -42,41 +72,29 @@ export default class MainsController {
 
   public async findMonthNum(day, month) {
     let month_num = 0
-    if (month === 1 && day >= 5 || month === 2 && day <= 4) {
-
+    if ((month === 1 && day >= 5) || (month === 2 && day <= 4)) {
       month_num = 2
-    } else if (month === 2 && day >= 5 || month === 3 && day <= 4) {
-
+    } else if ((month === 2 && day >= 5) || (month === 3 && day <= 4)) {
       month_num = 3
-    } else if (month === 3 && day >= 5 || month === 4 && day <= 4) {
-
+    } else if ((month === 3 && day >= 5) || (month === 4 && day <= 4)) {
       month_num = 4
-    } else if (month === 4 && day >= 5 || month === 5 && day <= 4) {
-
+    } else if ((month === 4 && day >= 5) || (month === 5 && day <= 4)) {
       month_num = 5
-    } else if (month === 5 && day >= 5 || month === 6 && day <= 4) {
-
+    } else if ((month === 5 && day >= 5) || (month === 6 && day <= 4)) {
       month_num = 6
-    } else if (month === 6 && day >= 5 || month === 7 && day <= 4) {
-
+    } else if ((month === 6 && day >= 5) || (month === 7 && day <= 4)) {
       month_num = 7
-    } else if (month === 7 && day >= 5 || month === 8 && day <= 4) {
-
+    } else if ((month === 7 && day >= 5) || (month === 8 && day <= 4)) {
       month_num = 8
-    } else if (month === 8 && day >= 5 || month === 9 && day <= 4) {
-
+    } else if ((month === 8 && day >= 5) || (month === 9 && day <= 4)) {
       month_num = 9
-    } else if (month === 9 && day >= 5 || month === 10 && day <= 4) {
-
+    } else if ((month === 9 && day >= 5) || (month === 10 && day <= 4)) {
       month_num = 10
-    } else if (month === 10 && day >= 5 || month === 11 && day <= 4) {
-
+    } else if ((month === 10 && day >= 5) || (month === 11 && day <= 4)) {
       month_num = 11
-    } else if (month === 11 && day >= 5 || month === 12 && day <= 4) {
-
+    } else if ((month === 11 && day >= 5) || (month === 12 && day <= 4)) {
       month_num = 12
     } else {
-
       month_num = 1
     }
     return month_num
@@ -101,35 +119,25 @@ export default class MainsController {
       year_num = 1
     } else if (cow.includes(year)) {
       year_num = 2
-    }
-    else if (tiger.includes(year)) {
+    } else if (tiger.includes(year)) {
       year_num = 3
-    }
-    else if (rabbit.includes(year)) {
+    } else if (rabbit.includes(year)) {
       year_num = 4
-    }
-    else if (dragon.includes(year)) {
+    } else if (dragon.includes(year)) {
       year_num = 5
-    }
-    else if (snake.includes(year)) {
+    } else if (snake.includes(year)) {
       year_num = 6
-    }
-    else if (horse.includes(year)) {
+    } else if (horse.includes(year)) {
       year_num = 7
-    }
-    else if (goat.includes(year)) {
+    } else if (goat.includes(year)) {
       year_num = 8
-    }
-    else if (monkey.includes(year)) {
+    } else if (monkey.includes(year)) {
       year_num = 9
-    }
-    else if (rooster.includes(year)) {
+    } else if (rooster.includes(year)) {
       year_num = 10
-    }
-    else if (dog.includes(year)) {
+    } else if (dog.includes(year)) {
       year_num = 11
-    }
-    else if (pig.includes(year)) {
+    } else if (pig.includes(year)) {
       year_num = 12
     }
 
@@ -168,112 +176,135 @@ export default class MainsController {
       { row: 28, name: 'ใจเย็น สุขุม' },
       { row: 29, name: 'ตรงไปตรงมา' },
       { row: 30, name: 'มีความรับผิดชอบ' },
-      { row: 31, name: 'เป็นนักปฏิบัติ' }
+      { row: 31, name: 'เป็นนักปฏิบัติ' },
     ]
 
-    let score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    let score = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]
     if (param === 1) {
-      score = [0, 0, 0, 10, 10, 0, 0, 10, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 20, 0, 10, 0, 10, 0, 0, 0, 0, 0, 10]
-    }
-    else if (param === 2) {
-      score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 10, 20, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 20, 10, 0]
-    }
-    else if (param === 3) {
-      score = [10, 10, 0, 0, 10, 10, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0, 10, 0, 0]
-    }
-    else if (param === 4) {
-      score = [0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 10, 10]
-    }
-    else if (param === 5) {
-      score = [10, 0, 10, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0]
-    }
-    else if (param === 6) {
-      score = [10, 10, 10, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]
-    }
-    else if (param === 7) {
-      score = [0, 0, 10, 0, 0, 0, 0, 10, 0, 10, 10, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 10, 0, 0, 0, 0]
-    }
-    else if (param === 8) {
-      score = [0, 10, 10, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 10, 0, 0, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0, 10, 0, 0]
-    }
-    else if (param === 9) {
-      score = [0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0, 0, 0, 10]
-    }
-    else if (param === 10) {
-      score = [10, 0, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, 10]
-    }
-    else if (param === 11) {
-      score = [0, 0, 0, 0, 0, 20, 20, 10, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 10, 0, 0]
-    }
-    else if (param === 12) {
-      score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 0, 10, 0, 0, 10, 10, 0, 10, 0]
+      score = [
+        0, 0, 0, 10, 10, 0, 0, 10, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 20, 0, 10, 0, 10, 0, 0, 0,
+        0, 0, 10,
+      ]
+    } else if (param === 2) {
+      score = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 10, 20, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 20,
+        10, 0,
+      ]
+    } else if (param === 3) {
+      score = [
+        10, 10, 0, 0, 10, 10, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 4) {
+      score = [
+        0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 10,
+        0, 10, 10,
+      ]
+    } else if (param === 5) {
+      score = [
+        10, 0, 10, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        10, 10, 0,
+      ]
+    } else if (param === 6) {
+      score = [
+        10, 10, 10, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0,
+        0, 0, 0, 0,
+      ]
+    } else if (param === 7) {
+      score = [
+        0, 0, 10, 0, 0, 0, 0, 10, 0, 10, 10, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 10,
+        0, 0, 0, 0,
+      ]
+    } else if (param === 8) {
+      score = [
+        0, 10, 10, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 10, 0, 0, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 9) {
+      score = [
+        0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0,
+        0, 0, 10,
+      ]
+    } else if (param === 10) {
+      score = [
+        10, 0, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10,
+        0, 0, 10,
+      ]
+    } else if (param === 11) {
+      score = [
+        0, 0, 0, 0, 0, 20, 20, 10, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 12) {
+      score = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 0, 10, 0, 0, 10, 10,
+        0, 10, 0,
+      ]
     }
     const mappedArray = personality.map((item, index) => {
       return {
         row: item.row,
         name: item.name,
-        score: score[index]
+        score: score[index],
       }
     })
     return mappedArray
   }
   public async findZodiacName(param) {
-
     let res = ''
     switch (param) {
       case 1:
         res = 'ชวด'
-        break;
+        break
       case 2:
         res = 'ฉลู'
-        break;
+        break
       case 3:
         res = 'ขาล'
-        break;
+        break
       case 4:
         res = 'เถาะ'
-        break;
+        break
       case 5:
         res = 'มะโรง'
-        break;
+        break
       case 6:
         res = 'มะเส็ง'
-        break;
+        break
       case 7:
         res = 'มะเมีย'
-        break;
+        break
       case 8:
         res = 'มะแม'
-        break;
+        break
       case 9:
         res = 'วอก'
-        break;
+        break
       case 10:
         res = 'ระกา'
-        break;
+        break
       case 11:
         res = 'จอ'
-        break;
+        break
       case 12:
         res = 'กุน'
-        break;
+        break
     }
     return res
   }
 
-  public async findPercentage(score_for_month, score_for_year) {
-    // เต็ม 40 คิด %
+  //F work plz
+  public async findPercentage(score_for_month, score_for_year, score_for_cid) {
+    const arr1 = score_for_month //40%
+    const arr2 = score_for_year //40%
+    const arr3 = score_for_cid //20%
 
-    const arr1 = score_for_month
-    const arr2 = score_for_year
-
-    const score = arr1.reduce((acc, curr, index) => {
-      // const randomNumber = Math.floor(Math.random() * 10);
-      // return acc.concat(Math.floor((Math.random() * 10) + ((curr + arr2[index]) / 25) * 100))
-      return acc.concat(((curr + arr2[index]) / 40) * 100)
-    }, [])
-
-    // console.log(score)
+    //to be discuss
+    const sumArray = arr1.map((num, index) => num + arr2[index] + arr3[index])
+    console.log(sumArray)
+    let score = sumArray
 
     const personality = [
       { row: 1, name: 'สติปัญญาดี' },
@@ -306,65 +337,155 @@ export default class MainsController {
       { row: 28, name: 'ใจเย็น สุขุม' },
       { row: 29, name: 'ตรงไปตรงมา' },
       { row: 30, name: 'มีความรับผิดชอบ' },
-      { row: 31, name: 'เป็นนักปฏิบัติ' }
+      { row: 31, name: 'เป็นนักปฏิบัติ' },
     ]
 
     const mappedArray = personality.map((item, index) => {
       return {
         row: item.row,
         name: item.name,
-        score: score[index]
+        score: score[index],
       }
     })
     return mappedArray
   }
 
   public async scoreForPercentage(param) {
-    let score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    //brute force version
+    let score = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]
     if (param === 1) {
-      score = [0, 0, 0, 10, 10, 0, 0, 10, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 20, 0, 10, 0, 10, 0, 0, 0, 0, 0, 10]
+      score = [
+        0, 0, 0, 10, 10, 0, 0, 10, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 20, 0, 10, 0, 10, 0, 0, 0,
+        0, 0, 10,
+      ]
+    } else if (param === 2) {
+      score = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 10, 20, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 20,
+        10, 0,
+      ]
+    } else if (param === 3) {
+      score = [
+        10, 10, 0, 0, 10, 10, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 4) {
+      score = [
+        0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 10,
+        0, 10, 10,
+      ]
+    } else if (param === 5) {
+      score = [
+        10, 0, 10, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        10, 10, 0,
+      ]
+    } else if (param === 6) {
+      score = [
+        10, 10, 10, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0,
+        0, 0, 0, 0,
+      ]
+    } else if (param === 7) {
+      score = [
+        0, 0, 10, 0, 0, 0, 0, 10, 0, 10, 10, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 10,
+        0, 0, 0, 0,
+      ]
+    } else if (param === 8) {
+      score = [
+        0, 10, 10, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 10, 0, 0, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 9) {
+      score = [
+        0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0,
+        0, 0, 10,
+      ]
+    } else if (param === 10) {
+      score = [
+        10, 0, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10,
+        0, 0, 10,
+      ]
+    } else if (param === 11) {
+      score = [
+        0, 0, 0, 0, 0, 20, 20, 10, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0,
+        10, 0, 0,
+      ]
+    } else if (param === 12) {
+      score = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 0, 10, 0, 0, 10, 10,
+        0, 10, 0,
+      ]
     }
-    else if (param === 2) {
-      score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 10, 20, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 20, 10, 0]
+    return score
+  }
+
+  public async scoreForCID(cid) {
+    let last_digit = cid % 10
+    //better version of thought
+    let score = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    ]
+    if (last_digit === 1) {
+      score[5] = 20
+      score[7] = 20
+      score[14] = 20
+      score[24] = 20
+      score[28] = 20
+    } else if (last_digit === 2) {
+      score[1] = 20
+      score[2] = 20
+      score[10] = 20
+      score[16] = 20
+      score[26] = 20
+    } else if (last_digit === 3) {
+      score[4] = 20
+      score[12] = 20
+      score[19] = 20
+      score[20] = 20
+      score[30] = 20
+    } else if (last_digit === 4) {
+      score[3] = 20
+      score[8] = 20
+      score[15] = 20
+      score[17] = 20
+      score[26] = 20
+    } else if (last_digit === 5) {
+      score[11] = 20
+      score[13] = 20
+      score[22] = 20
+      score[24] = 20
+      score[25] = 20
+    } else if (last_digit === 6) {
+      score[6] = 20
+      score[9] = 20
+      score[19] = 20
+      score[23] = 20
+      score[24] = 20
+    } else if (last_digit === 7) {
+      score[16] = 20
+      score[17] = 20
+      score[21] = 20
+      score[29] = 20
+      score[30] = 20
+    } else if (last_digit === 8) {
+      score[0] = 20
+      score[1] = 20
+      score[5] = 20
+      score[22] = 20
+      score[28] = 20
+    } else if (last_digit === 9) {
+      score[1] = 20
+      score[3] = 20
+      score[8] = 20
+      score[10] = 20
+      score[25] = 20
+    } else if (last_digit === 0) {
+      score[10] = 20
+      score[15] = 20
+      score[21] = 20
+      score[24] = 20
+      score[29] = 20
     }
-    else if (param === 3) {
-      score = [10, 10, 0, 0, 10, 10, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0, 10, 0, 0]
-    }
-    else if (param === 4) {
-      score = [0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 10, 10]
-    }
-    else if (param === 5) {
-      score = [10, 0, 10, 0, 0, 10, 10, 10, 10, 10, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0]
-    }
-    else if (param === 6) {
-      score = [10, 10, 10, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]
-    }
-    else if (param === 7) {
-      score = [0, 0, 10, 0, 0, 0, 0, 10, 0, 10, 10, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 10, 0, 0, 0, 0]
-    }
-    else if (param === 8) {
-      score = [0, 10, 10, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 10, 0, 10, 0, 0, 0, 0, 0, 10, 0, 10, 0, 0, 0, 0, 10, 0, 0]
-    }
-    else if (param === 9) {
-      score = [0, 10, 10, 10, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 10, 0, 10, 0, 0, 0, 0, 0, 10]
-    }
-    else if (param === 10) {
-      score = [10, 0, 0, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 10, 0, 0, 10]
-    }
-    else if (param === 11) {
-      score = [0, 0, 0, 0, 0, 20, 20, 10, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 10, 0, 0]
-    }
-    else if (param === 12) {
-      score = [0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 10, 10, 10, 0, 0, 0, 10, 0, 10, 0, 0, 10, 10, 0, 10, 0]
-    }
-    // const mappedArray = personality.map((item, index) => {
-    //   return {
-    //     row: item.row,
-    //     name: item.name,
-    //     score: score[index]
-    //   }
-    // })
-    // return mappedArray
     return score
   }
 }

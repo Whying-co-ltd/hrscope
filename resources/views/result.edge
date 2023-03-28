@@ -15,18 +15,25 @@
   <div class="container">
     <div class="columns">
       <div class="column">
-        <h1 class="title"> Details </h1>
-        <h2> {{name}} {{surname}} {{bdate}} </h2>
-        <h2> {{cid}} </h2>
-        <h2> เดือนนักษัตร {{month_zodiac_name}} </h2>
-        <h2> เดือนปีนักษัตร {{year_zodiac_name}} </h2>
+        <h1 class="title"> Person 1 </h1>
+        <h2> {{name_1}} {{surname_1}} {{bdate_1}} </h2>
+        <h2> {{cid_1}} </h2>
+        <h2> เดือนนักษัตร {{month_zodiac_name_1}} </h2>
+        <h2> เดือนปีนักษัตร {{year_zodiac_name_1}} </h2>
+      </div>
+      <div class="column">
+        <h1 class="title"> Person 2 </h1>
+        <h2> {{name_2}} {{surname_2}} {{bdate_2}} </h2>
+        <h2> {{cid_2}} </h2>
+        <h2> เดือนนักษัตร {{month_zodiac_name_2}} </h2>
+        <h2> เดือนปีนักษัตร {{year_zodiac_name_2}} </h2>
       </div>
     </div>
-    <h1 class="title">Assume ว่าเต็ม 40</h1>
+    <h1 class="title">Percent ยังไม่ได้คิด</h1>
     <div class="columns">
       <div class="column">
         <h2> # </h2>
-        @each(mscore in score_for_month_zodiac)
+        @each(mscore in score_for_month_zodiac_1)
         <div class="column">
           {{mscore.name}}
         </div>
@@ -34,24 +41,8 @@
       </div>
 
       <div class="column">
-        <h2> เดือน </h2>
-        @each(mscore in score_for_month_zodiac)
-        <div class="column">
-          {{mscore.score}}
-        </div>
-        @end
-      </div>
-      <div class="column">
-        <h2> ปี </h2>
-        @each(yscore in score_for_year_zodiac)
-        <div class="column">
-          {{yscore.score}}
-        </div>
-        @end
-      </div>
-      <div class="column">
         <h2> Percentage </h2>
-        @each(pscore in score_for_percentage)
+        @each(pscore in score_for_percentage_1)
         <div class="column">
           {{pscore.score}} %
         </div>

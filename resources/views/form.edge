@@ -1,65 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HRScope</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    @entryPointScripts('app') 
+    @entryPointStyles('app')
+    <script
+      src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js"
+      integrity="sha256-8QsmLlhrd0iPG7RQZvk0dmQfJmF2zLZd/JH8r+vHc4s="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.css"
+      integrity="sha256-bletkBeqVk+H2buw1Brxv7UTrxKLPSc+SwEVnGpAWO0="
+      crossorigin="anonymous"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HRScope</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  @entryPointStyles('app')
-  @entryPointScripts('app')
-  <script src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js"
-    integrity="sha256-8QsmLlhrd0iPG7RQZvk0dmQfJmF2zLZd/JH8r+vHc4s=" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/css/bulma-calendar.min.css"
-    integrity="sha256-bletkBeqVk+H2buw1Brxv7UTrxKLPSc+SwEVnGpAWO0=" crossorigin="anonymous">
-</head>
+  <body>
+    <main>
+      <div class="container">
+        <div class="column">
+          <form action="{{ route('MainsController.index') }}" method="POST">
+            <h1 class="title">Person 1</h1>
+            <div class="field">
+              <label class="label">ชื่อ</label>
+              <div class="control">
+                <input class="input" name="name_1" type="text" required placeholder="ชื่อ" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">นามสกุล</label>
+              <div class="control">
+                <input class="input" name="surname_1" type="text" required placeholder="นามสกุล" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">วัน-เดือน-ปีเกิด</label>
+              <div class="control">
+                <input class="bulma-calendar" required name="bdate_1" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">เลขบัตรประชาชน</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  inputmode="numeric"
+                  name="cid_1"
+                  maxlength="13"
+                  size="13"
+                  required
+                  placeholder="เลขบัตรประชาชน"
+                />
+              </div>
+            </div>
 
-<body>
-
-  <main>
-    <div class="container">
-      <h1 class="title"> HRscope </h1>
-      <form action="{{ route('MainsController.index') }}" method="POST">
-        <div class="field">
-          <label class="label">ชื่อ</label>
-          <div class="control">
-            <input class="input" name="name" type="text" required placeholder="ชื่อ">
-          </div>
+            <h1 class="title">Person 2</h1>
+            <div class="field">
+              <label class="label">ชื่อ</label>
+              <div class="control">
+                <input class="input" name="name_2" type="text" required placeholder="ชื่อ" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">นามสกุล</label>
+              <div class="control">
+                <input class="input" name="surname_2" type="text" required placeholder="นามสกุล" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">วัน-เดือน-ปีเกิด</label>
+              <div class="control">
+                <input class="bulma-calendar" required name="bdate_2" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">เลขบัตรประชาชน</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  inputmode="numeric"
+                  name="cid_2"
+                  maxlength="13"
+                  size="13"
+                  required
+                  placeholder="เลขบัตรประชาชน"
+                />
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary">Submit</button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="field">
-          <label class="label">นามสกุล</label>
-          <div class="control">
-            <input class="input" name="surname" type="text" required placeholder="นามสกุล">
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">วัน-เดือน-ปีเกิด</label>
-          <div class="control">
-            <input class="bulma-calendar" required name="bdate" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">เลขบัตรประชาชน</label>
-          <div class="control">
-            <input class="input" type="text" inputmode="numeric" name="cid" maxlength="13" size="13" required
-              placeholder="เลขบัตรประชาชน">
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <button class="button is-primary">Submit</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </main>
-</body>
-
+      </div>
+    </main>
+  </body>
 </html>
 
 <script>
   var myCal = bulmaCalendar.attach('.bulma-calendar', {
     type: 'datetime',
-    dateFormat: 'dd/MM/yyyy'
-  });
+    dateFormat: 'dd/MM/yyyy',
+  })
 </script>
