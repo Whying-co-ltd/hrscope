@@ -66,6 +66,8 @@ export default class MainsController {
       year_num_2: year_num_2,
       month_zodiac_name_2: month_zodiac_name_2,
       year_zodiac_name_2: year_zodiac_name_2,
+
+      compatibility: compatibility,
     }
     // return response.ok(result)
     return view.render('result', result)
