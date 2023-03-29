@@ -425,7 +425,7 @@ export default class MainsController {
   }
 
   public async monthScoreForCompatibility(person_1, person_2) {
-    const to_number_month = (el) =>
+    const to_index_month = (el) =>
       parseInt(moment(el, 'M-D').format('DD')) >= 5
         ? parseInt(moment(el, 'M-D').format('MM')) - 1
         : parseInt(moment(el, 'M-D').format('MM')) - 2
@@ -443,8 +443,8 @@ export default class MainsController {
       [20, 30, 20, 20, -15, 20, 20, 20, 20, 20, 0, 20],
       [30, 20, 20, 20, 20, -15, 20, 20, 20, 20, 20, 0],
     ]
-    let month_index_1 = to_number_month(person_1.date_month)
-    let month_index_2 = to_number_month(person_2.date_month)
+    let month_index_1 = to_index_month(person_1.date_month)
+    let month_index_2 = to_index_month(person_2.date_month)
 
     return score_arr[month_index_1][month_index_2]
   }
