@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
+import moment from 'moment'
 //เหลือ compatability กับ คิด percentage
 
 export default class MainsController {
@@ -19,6 +19,7 @@ export default class MainsController {
     const month_1 = parseInt(dateParts1[1])
     const year_1 = parseInt(dateParts1[2]) + 543
 
+    let compatibility = await this.compatibility(data.bdate_1, data.bdate_2) //here
     let month_num_1 = await this.findMonthNum(day_1, month_1)
     let year_num_1 = await this.findYearNum(year_1)
     let month_zodiac_name_1 = await this.findZodiacName(month_num_1)
@@ -252,6 +253,7 @@ export default class MainsController {
     })
     return mappedArray
   }
+
   public async findZodiacName(param) {
     let res = ''
     switch (param) {
@@ -297,13 +299,19 @@ export default class MainsController {
 
   //F work plz
   public async findPercentage(score_for_month, score_for_year, score_for_cid) {
+    //max is 20
     const arr1 = score_for_month //40%
     const arr2 = score_for_year //40%
     const arr3 = score_for_cid //20%
 
     //to be discuss
-    const sumArray = arr1.map((num, index) => num + arr2[index] + arr3[index])
-    console.log(sumArray)
+    const sumArray = arr1.map((num, index) => {
+      let sum = num * 2 + arr2[index] * 2 + arr3[index]
+      let random_number = Math.floor(Math.random() * 3) + 1
+      let should_add = Math.random() < 0.5
+      let result = sum < 10 ? sum : should_add ? sum + random_number : sum - random_number
+      return result
+    })
     let score = sumArray
 
     const personality = [
@@ -348,6 +356,115 @@ export default class MainsController {
       }
     })
     return mappedArray
+  }
+
+  public async compatibility(bdate_person_1, bdate_person_2) {
+    let person_1 = {
+      day: moment(bdate_person_1, 'DD/MM/YYYY HH:mm').format('dddd'),
+      date_month: moment(bdate_person_1, 'DD/MM/YYYY HH:mm').format('M-D'),
+      time: moment(bdate_person_1, 'DD/MM/YYYY HH:mm').format('HH:mm'),
+      year: await this.findYearNum(
+        parseInt(moment(bdate_person_1, 'DD/MM/YYYY HH:mm').format('YYYY')) + 543
+      ),
+    }
+    let person_2 = {
+      day: moment(bdate_person_2, 'DD/MM/YYYY HH:mm').format('dddd'),
+      date_month: moment(bdate_person_2, 'DD/MM/YYYY HH:mm').format('M-D'),
+      time: moment(bdate_person_2, 'DD/MM/YYYY HH:mm').format('HH:mm'),
+      year: await this.findYearNum(
+        parseInt(moment(bdate_person_2, 'DD/MM/YYYY HH:mm').format('YYYY')) + 543
+      ),
+    }
+    let day_score = await this.dayScoreForCompatibility(person_1, person_2)
+    let month_score = await this.monthScoreForCompatibility(person_1, person_2)
+    let year_score = await this.yearScoreForCompatibility(person_1, person_2)
+    let result = day_score * 0.75 + month_score + year_score * 1.3
+    return result
+  }
+
+  public async dayScoreForCompatibility(person_1, person_2) {
+    //assume NightTime & Wed-Wed Score
+    let night_start = moment('17:59', 'HH:mm')
+    let night_end = moment('06:01', 'HH:mm')
+    let day_1 = person_1.day
+    let day_2 = person_2.day
+    let time_1 = moment(person_1.time, 'HH:mm')
+    let time_2 = moment(person_2.time, 'HH:mm')
+    let is_night_1 = time_1.isAfter(night_start) || time_1.isBefore(night_end)
+    let is_night_2 = time_2.isAfter(night_start) || time_2.isBefore(night_end)
+    let day_arr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    let score = [
+      [0, 0, -20, 0, 40, 20, 30],
+      [0, 0, 30, 40, -20, 0, 0],
+      [-20, 30, 0, 0, 20, 40, 0],
+      [0, 40, 0, 0, 0, 0, 30], //night-20
+      [40, -20, 20, 0, 0, 0, 0],
+      [20, 0, 40, 0, 0, 0, -20],
+      [30, 0, 0, 20, 0, -20, 0], //night +20
+    ]
+    let result = score[day_arr.indexOf(day_1)][day_arr.indexOf(day_2)]
+    if (day_1 == 'Wednesday' && day_2 == 'Wednesday') {
+      if (is_night_1 || is_night_2) {
+        result -= 20
+      }
+    } else if (
+      (day_1 == 'Wednesday' || day_2 == 'Wednesday') &&
+      (day_1 == 'Saturday' || day_2 == 'Saturday')
+    ) {
+      if (day_1 == 'Saturday') {
+        if (is_night_2) {
+          result += 20
+        }
+      } else {
+        if (is_night_1) {
+          result += 20
+        }
+      }
+    }
+    return result
+  }
+
+  public async monthScoreForCompatibility(person_1, person_2) {
+    const to_index_month = (el) =>
+      parseInt(moment(el, 'M-D').format('DD')) >= 5
+        ? parseInt(moment(el, 'M-D').format('MM')) - 1
+        : parseInt(moment(el, 'M-D').format('MM')) - 2
+    let score_arr = [
+      [0, 20, 20, 20, 20, 20, -15, 20, 20, 20, 20, 30],
+      [20, 0, 20, 20, 20, 20, 20, -15, 20, 20, 30, 20],
+      [20, 20, 0, 20, 20, 20, 20, 20, -15, 30, 20, 20],
+      [20, 20, 20, 0, 20, 20, 20, 20, 30, -15, 20, 20],
+      [20, 20, 20, 20, 0, 20, 20, 30, 20, 20, -15, 20],
+      [20, 20, 20, 20, 20, 0, 30, 20, 20, 20, 20, -15],
+      [-15, 20, 20, 20, 20, 30, 0, 20, 20, 20, 20, 20],
+      [20, -15, 20, 20, 30, 20, 20, 0, 20, 20, 20, 20],
+      [20, 20, -15, 30, 20, 20, 20, 20, 0, 20, 20, 20],
+      [20, 20, 30, -15, 20, 20, 20, 20, 20, 0, 20, 20],
+      [20, 30, 20, 20, -15, 20, 20, 20, 20, 20, 0, 20],
+      [30, 20, 20, 20, 20, -15, 20, 20, 20, 20, 20, 0],
+    ]
+    let month_index_1 = to_index_month(person_1.date_month)
+    let month_index_2 = to_index_month(person_2.date_month)
+
+    return score_arr[month_index_1][month_index_2]
+  }
+
+  public async yearScoreForCompatibility(person_1, person_2) {
+    let score_arr = [
+      [0, 30, 20, 20, 20, 20, 10, 20, 20, 20, 20, 20],
+      [30, 0, 20, 20, 20, 20, 20, 10, 20, 20, 20, 20],
+      [20, 20, 0, 20, 20, 20, 20, 20, 10, 20, 20, 30],
+      [20, 20, 20, 0, 20, 20, 20, 20, 20, 10, 30, 20],
+      [20, 20, 20, 20, 0, 20, 20, 20, 20, 30, 10, 20],
+      [20, 20, 20, 20, 20, 0, 20, 20, 30, 20, 20, 10],
+      [10, 20, 20, 20, 20, 20, 0, 30, 20, 20, 20, 20],
+      [20, 10, 20, 20, 20, 20, 30, 0, 20, 20, 20, 20],
+      [20, 20, 10, 20, 20, 30, 20, 20, 0, 20, 20, 20],
+      [20, 20, 20, 10, 30, 20, 20, 20, 20, 0, 20, 20],
+      [20, 20, 20, 30, 10, 20, 20, 20, 20, 20, 0, 20],
+      [20, 20, 30, 20, 20, 10, 20, 20, 20, 20, 20, 0],
+    ]
+    return score_arr[person_1.year][person_2.year]
   }
 
   public async scoreForPercentage(param) {
