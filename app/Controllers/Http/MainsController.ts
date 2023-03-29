@@ -445,7 +445,6 @@ export default class MainsController {
     ]
     let month_index_1 = to_number_month(person_1.date_month)
     let month_index_2 = to_number_month(person_2.date_month)
-    console.log(score_arr[month_index_1][month_index_2])
 
     return score_arr[month_index_1][month_index_2]
   }
