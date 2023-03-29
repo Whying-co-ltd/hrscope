@@ -3,7 +3,7 @@ import moment from 'moment'
 //เหลือ compatability กับ คิด percentage
 
 export default class MainsController {
-  public async index({ request, response, view }: HttpContextContract) {
+  public async index({ request, view }: HttpContextContract) {
     const data = request.only([
       'name_1',
       'surname_1',
