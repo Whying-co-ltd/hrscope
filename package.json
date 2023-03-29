@@ -67,6 +67,7 @@
     "@adonisjs/view": "^6.2.0",
     "bulma-calendar": "^6.1.19",
     "dracula-ui": "^1.0.6",
+    "moment": "^2.29.4",
     "proxy-addr": "^2.0.7",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21"
