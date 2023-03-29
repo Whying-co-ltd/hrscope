@@ -296,14 +296,20 @@ export default class MainsController {
   }
 
   //F work plz
-  public async findPercentage(score_for_month, score_for_year, score_for_cid) {
+  public async findPercentage(score_for_month, score_for_year, score_for_cid) { 
+    //max is 20 
     const arr1 = score_for_month //40%
     const arr2 = score_for_year //40%
     const arr3 = score_for_cid //20%
-
+    
     //to be discuss
-    const sumArray = arr1.map((num, index) => num + arr2[index] + arr3[index])
-    console.log(sumArray)
+    const sumArray = arr1.map((num, index) => {
+      let sum = (num*2) + (arr2[index] * 2) + arr3[index]
+      let random_number = Math.floor(Math.random() * 3) + 1
+      let should_add = Math.random() < 0.5
+      let result = sum < 10 ? sum : should_add ? sum + random_number : sum - random_number
+      return result
+    })
     let score = sumArray
 
     const personality = [
