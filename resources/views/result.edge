@@ -34,23 +34,11 @@
         </div>
       </div>
       <h1 class="title">Percent</h1>
-      <div class="columns">
-        <div class="column">
-          <h2>#</h2>
-          @each(mscore in score_for_month_zodiac_1)
-          <div class="column">
-            {{ mscore.name }}
-          </div>
-          @end
-        </div>
-
-        <div class="column">
-          <h2>Percentage</h2>
-          @each(pscore in score_for_percentage_1)
-          <div class="column">{{ pscore.score }} %</div>
-          @end
-        </div>
-      </div>
+        @each(pscore in score_for_percentage_1)
+          <p>
+            {{pscore.name}} {{ pscore.score }} %
+          </p>
+        @end
     </div>
   </body>
 </html>
