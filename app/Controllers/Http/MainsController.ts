@@ -34,6 +34,7 @@ export default class MainsController {
       score_for_year_1,
       score_for_cid_1
     )
+    let jon_score = await this.jobScore(score_for_month_1, score_for_year_1, score_for_cid_1) //here
 
     const dateParts2 = data.bdate_2.split('/')
     const day_2 = parseInt(dateParts2[0])
@@ -356,6 +357,30 @@ export default class MainsController {
       }
     })
     return mappedArray
+  }
+
+  public async jobScore(score_for_month, score_for_year, score_for_cid) {
+    let sum = score_for_month.map(
+      (num, index) => num + score_for_year[index] + score_for_cid[index]
+    )
+    let multiply = [
+      [2, 1, 1, 1, 3, 4, 2, 3, 3, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 3, 2, 2, 2, 2, 1, 1, 1, 2, 3, 2],
+      [1, 1, 1, 4, 1, 1, 1, 2, 2, 3, 2, 2, 2, 1, 1, 1, 3, 2, 1, 1, 1, 1, 1, 1, 2, 3, 2, 1, 1, 1, 3],
+      [1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 4, 3, 1, 1, 1, 4, 2, 1, 1, 1, 1, 1, 3, 1, 1, 3, 3, 1],
+      [2, 3, 3, 1, 4, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 3, 1, 3, 1, 1, 2, 2, 1, 1, 1, 2],
+      [1, 1, 1, 3, 1, 1, 1, 1, 2, 3, 2, 2, 2, 2, 1, 3, 4, 4, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1],
+      [2, 3, 4, 1, 2, 2, 1, 1, 2, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 2, 3, 1, 2, 1, 1, 1, 1, 1, 2],
+    ]
+    let divide = [41, 32, 30, 32, 31, 31]
+    let result = new Array()
+    for (let i = 0; i < 6; i++) {
+      let tmp_val = 0
+      for (let i2 = 0; i2 < multiply[i].length; i2++) {
+        tmp_val += sum[i2] * multiply[i][i2]
+      }
+      result.push(Math.floor(tmp_val / divide[i]))
+    }
+    return result
   }
 
   public async compatibility(bdate_person_1, bdate_person_2) {
