@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HRScope</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
-    @entryPointStyles('app')
-    @entryPointScripts('app')
-  </head>
 
-  <body>
-    <div class="container">
-      <div class="columns">
-        <div class="column">
-          <h1 class="title">Person 1</h1>
-          <h2>{{ name_1 }} {{ surname_1 }} {{ bdate_1 }}</h2>
-          <h2>{{ cid_1 }}</h2>
-          <h2>เดือนนักษัตร {{ month_zodiac_name_1 }}</h2>
-          <h2>เดือนปีนักษัตร {{ year_zodiac_name_1 }}</h2>
-        </div>
-        <div class="column">
-          <h1 class="title">Person 2</h1>
-          <h2>{{ name_2 }} {{ surname_2 }} {{ bdate_2 }}</h2>
-          <h2>{{ cid_2 }}</h2>
-          <h2>เดือนนักษัตร {{ month_zodiac_name_2 }}</h2>
-          <h2>เดือนปีนักษัตร {{ year_zodiac_name_2 }}</h2>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HRScope</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  @entryPointStyles('app')
+  @entryPointScripts('app')
+</head>
+
+<body style="padding-left: 10px;">
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Person 1</h1>
+        <h2>{{ name_1 }} {{ surname_1 }} {{ bdate_1 }}</h2>
+        <h2>{{ cid_1 }}</h2>
+        <h2>เดือนนักษัตร {{ month_zodiac_name_1 }}</h2>
+        <h2>เดือนปีนักษัตร {{ year_zodiac_name_1 }}</h2>
       </div>
-      <div class="columns">
-        <div class="column">
-          <h1 class="title">Compatibility</h1>
-          <h2 class="subtitle">{{compatibility}} %</h2>
-        </div>
+      <div class="column">
+        <h1 class="title">Person 2</h1>
+        <h2>{{ name_2 }} {{ surname_2 }} {{ bdate_2 }}</h2>
+        <h2>{{ cid_2 }}</h2>
+        <h2>เดือนนักษัตร {{ month_zodiac_name_2 }}</h2>
+        <h2>เดือนปีนักษัตร {{ year_zodiac_name_2 }}</h2>
       </div>
-      <h1 class="title">Percent</h1>
-        @each(pscore in score_for_percentage_1)
-          <p>
-            {{pscore.name}} {{ pscore.score }} %
-          </p>
-        @end
     </div>
-  </body>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Compatibility</h1>
+        <h2 class="subtitle">{{compatibility}} %</h2>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="column">
+        <h1 class="title">Job Score</h1>
+        @each(jscore in job_score)
+        <p>
+          {{jscore.name}} {{ jscore.score }} %
+        </p>
+        @end
+      </div>
+    </div>
+    <h1 class="title">Percent</h1>
+    @each(pscore in score_for_percentage_1)
+    <p>
+      {{pscore.name}} {{ pscore.score }} %
+    </p>
+    @end
+  </div>
+</body>
+
 </html>
