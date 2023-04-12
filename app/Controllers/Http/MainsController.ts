@@ -390,7 +390,7 @@ export default class MainsController {
       for (let i2 = 0; i2 < multiply[i].length; i2++) {
         tmp_val += sum[i2].score * multiply[i][i2]
       }
-      score.push(Math.floor(tmp_val / 6) - 100)
+      score.push(Math.floor((tmp_val / 6)/2))
     }
 
     const mappedArray = name.map((item, index) => {
