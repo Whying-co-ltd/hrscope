@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HRScope</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
-    @entryPointScripts('app') 
+    @entryPointScripts('app')
     @entryPointStyles('app')
     <script
       src="https://cdn.jsdelivr.net/npm/bulma-calendar@6.1.19/dist/js/bulma-calendar.min.js"
@@ -42,6 +42,7 @@
               <label class="label">วัน-เดือน-ปีเกิด</label>
               <div class="control">
                 <input class="bulma-calendar" required name="bdate_1" />
+                <p class="test-text1" onclick="changeToBC1()">Click here to show BC</p>
               </div>
             </div>
             <div class="field">
@@ -77,6 +78,7 @@
               <label class="label">วัน-เดือน-ปีเกิด</label>
               <div class="control">
                 <input class="bulma-calendar" required name="bdate_2" />
+                <p class="test-text2" onclick="changeToBC2()">Click here to show BC</p>
               </div>
             </div>
             <div class="field">
@@ -107,8 +109,63 @@
 </html>
 
 <script>
-  var myCal = bulmaCalendar.attach('.bulma-calendar', {
+  function changeToBC1(){
+    // Get the input element
+    const input = document.querySelector('input[name="bdate_1"]');
+    const out = document.querySelector('.test-text1')
+
+    // Get the current value
+    const currentValue = input.value;
+
+    // Split the value into date and time parts
+    const [datePart, timePart] = currentValue.split(' ');
+
+    // Split the date part into day, month, and year
+    const [day, month, year] = datePart.split('-');
+
+    // Convert the year to a number and add 543
+    const newYear = Number(year) + 543;
+
+    // Combine the new date and time parts
+    const newDatePart = `${day}-${month}-${newYear}`;
+    const newDateTime = `${newDatePart} ${timePart}`;
+
+    // Set the new value back to the input
+    out.textContent = newDateTime;
+  }
+
+  function changeToBC2(){
+    // Get the input element
+    const input = document.querySelector('input[name="bdate_2"]');
+    const out = document.querySelector('.test-text2')
+
+    // Get the current value
+    const currentValue = input.value;
+
+    // Split the value into date and time parts
+    const [datePart, timePart] = currentValue.split(' ');
+
+    // Split the date part into day, month, and year
+    const [day, month, year] = datePart.split('-');
+
+    // Convert the year to a number and add 543
+    const newYear = Number(year) + 543;
+
+    // Combine the new date and time parts
+    const newDatePart = `${day}-${month}-${newYear}`;
+    const newDateTime = `${newDatePart} ${timePart}`;
+
+    // Set the new value back to the input
+    out.textContent = newDateTime;
+  }
+
+  const options = {
     type: 'datetime',
-    dateFormat: 'dd/MM/yyyy',
-  })
+    lang: 'th',
+    displayYearsCount: 100,
+    dateFormat: 'dd-MM-yyyy',
+  };
+
+  var myCal = bulmaCalendar.attach('.bulma-calendar', options)
+
 </script>
