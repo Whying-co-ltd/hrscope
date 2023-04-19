@@ -390,7 +390,7 @@ export default class MainsController {
       for (let i2 = 0; i2 < multiply[i].length; i2++) {
         tmp_val += sum[i2].score * multiply[i][i2]
       }
-      score.push(Math.floor((tmp_val / 6)/2))
+      score.push(Math.floor(tmp_val / 6 / 2))
     }
 
     const mappedArray = name.map((item, index) => {
@@ -430,43 +430,43 @@ export default class MainsController {
 
   public async dayScoreForCompatibility(person_1, person_2) {
     //assume NightTime & Wed-Wed Score
-    let night_start = moment('17:59', 'HH:mm')
-    let night_end = moment('06:01', 'HH:mm')
+    // let night_start = moment('17:59', 'HH:mm')
+    // let night_end = moment('06:01', 'HH:mm')
     let day_1 = person_1.day
     let day_2 = person_2.day
-    let time_1 = moment(person_1.time, 'HH:mm')
-    let time_2 = moment(person_2.time, 'HH:mm')
-    let is_night_1 = time_1.isAfter(night_start) || time_1.isBefore(night_end)
-    let is_night_2 = time_2.isAfter(night_start) || time_2.isBefore(night_end)
+    // let time_1 = moment(person_1.time, 'HH:mm')
+    // let time_2 = moment(person_2.time, 'HH:mm')
+    // let is_night_1 = time_1.isAfter(night_start) || time_1.isBefore(night_end)
+    // let is_night_2 = time_2.isAfter(night_start) || time_2.isBefore(night_end)
     let day_arr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     let score = [
-      [0, 0, -20, 0, 40, 20, 30],
-      [0, 0, 30, 40, -20, 0, 0],
-      [-20, 30, 0, 0, 20, 40, 0],
-      [0, 40, 0, 0, 0, 0, 30], //night-20
-      [40, -20, 20, 0, 0, 0, 0],
-      [20, 0, 40, 0, 0, 0, -20],
-      [30, 0, 0, 20, 0, -20, 0], //night +20
+      [5, 5, 0, 5, 20, 10, 15],
+      [5, 5, 15, 20, 0, 5, 5],
+      [0, 15, 5, 5, 10, 20, 5],
+      [5, 20, 5, 0, 5, 5, 15], //night-20
+      [20, 0, 10, 5, 5, 5, 5],
+      [10, 5, 20, 5, 5, 5, 0],
+      [15, 5, 5, 20, 5, 0, 5], //night +20
     ]
     let result = score[day_arr.indexOf(day_1)][day_arr.indexOf(day_2)]
-    if (day_1 == 'Wednesday' && day_2 == 'Wednesday') {
-      if (is_night_1 || is_night_2) {
-        result -= 20
-      }
-    } else if (
-      (day_1 == 'Wednesday' || day_2 == 'Wednesday') &&
-      (day_1 == 'Saturday' || day_2 == 'Saturday')
-    ) {
-      if (day_1 == 'Saturday') {
-        if (is_night_2) {
-          result += 20
-        }
-      } else {
-        if (is_night_1) {
-          result += 20
-        }
-      }
-    }
+    // if (day_1 == 'Wednesday' && day_2 == 'Wednesday') {
+    //   if (is_night_1 || is_night_2) {
+    //     result -= 20
+    //   }
+    // } else if (
+    //   (day_1 == 'Wednesday' || day_2 == 'Wednesday') &&
+    //   (day_1 == 'Saturday' || day_2 == 'Saturday')
+    // ) {
+    //   if (day_1 == 'Saturday') {
+    //     if (is_night_2) {
+    //       result += 20
+    //     }
+    //   } else {
+    //     if (is_night_1) {
+    //       result += 20
+    //     }
+    //   }
+    // }
     return result
   }
 
@@ -497,18 +497,18 @@ export default class MainsController {
 
   public async yearScoreForCompatibility(person_1, person_2) {
     let score_arr = [
-      [0, 30, 20, 20, 20, 20, 10, 20, 20, 20, 20, 20],
-      [30, 0, 20, 20, 20, 20, 20, 10, 20, 20, 20, 20],
-      [20, 20, 0, 20, 20, 20, 20, 20, 10, 20, 20, 30],
-      [20, 20, 20, 0, 20, 20, 20, 20, 20, 10, 30, 20],
-      [20, 20, 20, 20, 0, 20, 20, 20, 20, 30, 10, 20],
-      [20, 20, 20, 20, 20, 0, 20, 20, 30, 20, 20, 10],
-      [10, 20, 20, 20, 20, 20, 0, 30, 20, 20, 20, 20],
-      [20, 10, 20, 20, 20, 20, 30, 0, 20, 20, 20, 20],
-      [20, 20, 10, 20, 20, 30, 20, 20, 0, 20, 20, 20],
-      [20, 20, 20, 10, 30, 20, 20, 20, 20, 0, 20, 20],
-      [20, 20, 20, 30, 10, 20, 20, 20, 20, 20, 0, 20],
-      [20, 20, 30, 20, 20, 10, 20, 20, 20, 20, 20, 0],
+      [0, 40, 10, 10, 30, 20, 0, 10, 30, 20, 10, 0],
+      [40, 20, 10, 10, 20, 30, 10, 0, 20, 30, 10, 0],
+      [0, 10, 0, 20, 10, 10, 30, 20, 0, 10, 30, 40],
+      [0, 10, 20, 10, 10, 10, 20, 30, 10, 0, 40, 30],
+      [30, 20, 10, 10, 30, 20, 10, 10, 30, 40, 0, 0],
+      [20, 30, 10, 10, 20, 0, 10, 10, 40, 30, 10, 0],
+      [0, 10, 30, 20, 10, 10, 0, 40, 10, 10, 30, 20],
+      [0, 0, 20, 30, 10, 10, 40, 0, 10, 10, 20, 30],
+      [30, 20, 0, 10, 30, 40, 10, 10, 10, 20, 10, 0],
+      [20, 30, 10, 0, 40, 30, 10, 10, 20, 0, 10, 0],
+      [0, 10, 30, 40, 0, 10, 30, 20, 10, 10, 40, 20],
+      [0, 10, 40, 30, 10, 0, 20, 30, 10, 10, 20, 30],
     ]
     return score_arr[person_1.year][person_2.year]
   }
