@@ -14,10 +14,12 @@ export default class MainsController {
       'bdate_2',
       'cid_2',
     ])
-    const dateParts1 = data.bdate_1.split('/')
+    const dateParts1 = data.bdate_1.split('-')
     const day_1 = parseInt(dateParts1[0])
     const month_1 = parseInt(dateParts1[1])
     const year_1 = parseInt(dateParts1[2]) + 543
+
+    console.log(dateParts1)
 
     let compatibility = await this.compatibility(data.bdate_1, data.bdate_2) //here
     let month_num_1 = await this.findMonthNum(day_1, month_1)
@@ -37,7 +39,7 @@ export default class MainsController {
 
     let job_score = await this.jobScore(score_for_percentage_1) //here
 
-    const dateParts2 = data.bdate_2.split('/')
+    const dateParts2 = data.bdate_2.split('-')
     const day_2 = parseInt(dateParts2[0])
     const month_2 = parseInt(dateParts2[1])
     const year_2 = parseInt(dateParts2[2]) + 543
@@ -476,18 +478,18 @@ export default class MainsController {
         ? parseInt(moment(el, 'M-D').format('MM')) - 1
         : parseInt(moment(el, 'M-D').format('MM')) - 2
     let score_arr = [
-      [0, 20, 20, 20, 20, 20, -15, 20, 20, 20, 20, 30],
-      [20, 0, 20, 20, 20, 20, 20, -15, 20, 20, 30, 20],
-      [20, 20, 0, 20, 20, 20, 20, 20, -15, 30, 20, 20],
-      [20, 20, 20, 0, 20, 20, 20, 20, 30, -15, 20, 20],
-      [20, 20, 20, 20, 0, 20, 20, 30, 20, 20, -15, 20],
-      [20, 20, 20, 20, 20, 0, 30, 20, 20, 20, 20, -15],
-      [-15, 20, 20, 20, 20, 30, 0, 20, 20, 20, 20, 20],
-      [20, -15, 20, 20, 30, 20, 20, 0, 20, 20, 20, 20],
-      [20, 20, -15, 30, 20, 20, 20, 20, 0, 20, 20, 20],
-      [20, 20, 30, -15, 20, 20, 20, 20, 20, 0, 20, 20],
-      [20, 30, 20, 20, -15, 20, 20, 20, 20, 20, 0, 20],
-      [30, 20, 20, 20, 20, -15, 20, 20, 20, 20, 20, 0],
+      [0, 40, 10, 10, 30, 20, 0, 10, 30, 20, 10, 0],
+      [40, 20, 10, 10, 20, 30, 10, 0, 20, 30, 10, 0],
+      [0, 10, 0, 20, 10, 10, 30, 20, 0, 10, 30, 40],
+      [0, 10, 20, 10, 10, 10, 20, 30, 10, 0, 40, 30],
+      [30, 20, 10, 10, 30, 20, 10, 10, 30, 40, 0, 0],
+      [20, 30, 10, 10, 20, 0, 10, 10, 40, 30, 10, 0],
+      [0, 10, 30, 20, 10, 10, 0, 40, 10, 10, 30, 20],
+      [0, 0, 20, 30, 10, 10, 40, 0, 10, 10, 20, 30],
+      [30, 20, 0, 10, 30, 40, 10, 10, 10, 20, 10, 0],
+      [20, 30, 10, 0, 40, 30, 10, 10, 20, 0, 10, 0],
+      [0, 10, 30, 40, 0, 10, 30, 20, 10, 10, 40, 20],
+      [0, 10, 40, 30, 10, 0, 20, 30, 10, 10, 20, 30],
     ]
     let month_index_1 = to_index_month(person_1.date_month)
     let month_index_2 = to_index_month(person_2.date_month)
