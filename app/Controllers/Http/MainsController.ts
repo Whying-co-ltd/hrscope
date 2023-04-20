@@ -14,10 +14,12 @@ export default class MainsController {
       'bdate_2',
       'cid_2',
     ])
-    const dateParts1 = data.bdate_1.split('/')
+    const dateParts1 = data.bdate_1.split('-')
     const day_1 = parseInt(dateParts1[0])
     const month_1 = parseInt(dateParts1[1])
     const year_1 = parseInt(dateParts1[2]) + 543
+
+    console.log(dateParts1)
 
     let compatibility = await this.compatibility(data.bdate_1, data.bdate_2) //here
     let month_num_1 = await this.findMonthNum(day_1, month_1)
@@ -37,7 +39,7 @@ export default class MainsController {
 
     let job_score = await this.jobScore(score_for_percentage_1) //here
 
-    const dateParts2 = data.bdate_2.split('/')
+    const dateParts2 = data.bdate_2.split('-')
     const day_2 = parseInt(dateParts2[0])
     const month_2 = parseInt(dateParts2[1])
     const year_2 = parseInt(dateParts2[2]) + 543
