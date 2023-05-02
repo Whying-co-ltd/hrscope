@@ -315,10 +315,7 @@ export default class MainsController {
     //to be discuss
     const sumArray = arr1.map((num, index) => {
       let sum = num * 2 + arr2[index] * 2 + arr3[index]
-      let random_number = Math.floor(Math.random() * 3) + 1
-      let should_add = Math.random() < 0.5
-      let result = sum < 10 ? sum : should_add ? sum + random_number : sum - random_number
-      return result
+      return sum
     })
     let score = sumArray
 
