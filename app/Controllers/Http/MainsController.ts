@@ -80,53 +80,34 @@ export default class MainsController {
   }
 
   public async findMonthNum(day, month) {
-    if(day >= 5) {
+    if (day >= 5) {
       return month === 12 ? 1 : month + 1
     }
     return month
   }
 
   public async findYearNum(year) {
-    const rat = [2455, 2467, 2479, 2491, 2503, 2515, 2527, 2539, 2551, 2563, 2575]
-    const cow = [2456, 2468, 2480, 2492, 2504, 2516, 2528, 2540, 2552, 2564, 2576]
-    const tiger = [2457, 2469, 2481, 2493, 2505, 2517, 2529, 2541, 2553, 2565, 2577]
-    const rabbit = [2458, 2470, 2482, 2494, 2506, 2518, 2530, 2542, 2554, 2566, 2578]
-    const dragon = [2459, 2471, 2483, 2495, 2507, 2519, 2531, 2543, 2555, 2567, 2579]
-    const snake = [2460, 2472, 2484, 2496, 2508, 2520, 2532, 2544, 2556, 2568, 2580]
-    const horse = [2461, 2473, 2485, 2497, 2509, 2521, 2533, 2545, 2557, 2569, 2581]
-    const goat = [2462, 2474, 2486, 2498, 2510, 2522, 2534, 2546, 2558, 2570, 2582]
-    const monkey = [2463, 2475, 2487, 2499, 2511, 2523, 2535, 2547, 2559, 2571, 2583]
-    const rooster = [2464, 2476, 2488, 2500, 2512, 2524, 2536, 2548, 2560, 2572, 2584]
-    const dog = [2465, 2477, 2489, 2501, 2513, 2525, 2537, 2549, 2561, 2573, 2585]
-    const pig = [2466, 2478, 2490, 2502, 2514, 2526, 2538, 2550, 2562, 2574, 2586]
-
-    let year_num = 0
-    if (rat.includes(year)) {
-      year_num = 1
-    } else if (cow.includes(year)) {
-      year_num = 2
-    } else if (tiger.includes(year)) {
-      year_num = 3
-    } else if (rabbit.includes(year)) {
-      year_num = 4
-    } else if (dragon.includes(year)) {
-      year_num = 5
-    } else if (snake.includes(year)) {
-      year_num = 6
-    } else if (horse.includes(year)) {
-      year_num = 7
-    } else if (goat.includes(year)) {
-      year_num = 8
-    } else if (monkey.includes(year)) {
-      year_num = 9
-    } else if (rooster.includes(year)) {
-      year_num = 10
-    } else if (dog.includes(year)) {
-      year_num = 11
-    } else if (pig.includes(year)) {
-      year_num = 12
+    const animals = {
+      rat: [2455, 2467, 2479, 2491, 2503, 2515, 2527, 2539, 2551, 2563, 2575],
+      cow: [2456, 2468, 2480, 2492, 2504, 2516, 2528, 2540, 2552, 2564, 2576],
+      tiger: [2457, 2469, 2481, 2493, 2505, 2517, 2529, 2541, 2553, 2565, 2577],
+      rabbit: [2458, 2470, 2482, 2494, 2506, 2518, 2530, 2542, 2554, 2566, 2578],
+      dragon: [2459, 2471, 2483, 2495, 2507, 2519, 2531, 2543, 2555, 2567, 2579],
+      snake: [2460, 2472, 2484, 2496, 2508, 2520, 2532, 2544, 2556, 2568, 2580],
+      horse: [2461, 2473, 2485, 2497, 2509, 2521, 2533, 2545, 2557, 2569, 2581],
+      goat: [2462, 2474, 2486, 2498, 2510, 2522, 2534, 2546, 2558, 2570, 2582],
+      monkey: [2463, 2475, 2487, 2499, 2511, 2523, 2535, 2547, 2559, 2571, 2583],
+      rooster: [2464, 2476, 2488, 2500, 2512, 2524, 2536, 2548, 2560, 2572, 2584],
+      dog: [2465, 2477, 2489, 2501, 2513, 2525, 2537, 2549, 2561, 2573, 2585],
+      pig: [2466, 2478, 2490, 2502, 2514, 2526, 2538, 2550, 2562, 2574, 2586],
     }
 
+    let year_num = 0
+    Object.entries(animals).forEach(([animal, years]) => {
+      if (years.includes(year)) {
+        year_num = Object.keys(animals).indexOf(animal) + 1
+      }
+    })
     return year_num
   }
 
