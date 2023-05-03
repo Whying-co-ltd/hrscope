@@ -80,33 +80,10 @@ export default class MainsController {
   }
 
   public async findMonthNum(day, month) {
-    let month_num = 0
-    if ((month === 1 && day >= 5) || (month === 2 && day <= 4)) {
-      month_num = 2
-    } else if ((month === 2 && day >= 5) || (month === 3 && day <= 4)) {
-      month_num = 3
-    } else if ((month === 3 && day >= 5) || (month === 4 && day <= 4)) {
-      month_num = 4
-    } else if ((month === 4 && day >= 5) || (month === 5 && day <= 4)) {
-      month_num = 5
-    } else if ((month === 5 && day >= 5) || (month === 6 && day <= 4)) {
-      month_num = 6
-    } else if ((month === 6 && day >= 5) || (month === 7 && day <= 4)) {
-      month_num = 7
-    } else if ((month === 7 && day >= 5) || (month === 8 && day <= 4)) {
-      month_num = 8
-    } else if ((month === 8 && day >= 5) || (month === 9 && day <= 4)) {
-      month_num = 9
-    } else if ((month === 9 && day >= 5) || (month === 10 && day <= 4)) {
-      month_num = 10
-    } else if ((month === 10 && day >= 5) || (month === 11 && day <= 4)) {
-      month_num = 11
-    } else if ((month === 11 && day >= 5) || (month === 12 && day <= 4)) {
-      month_num = 12
-    } else {
-      month_num = 1
+    if(day >= 5) {
+      return month === 12 ? 1 : month + 1
     }
-    return month_num
+    return month
   }
 
   public async findYearNum(year) {
