@@ -221,46 +221,12 @@ export default class MainsController {
   }
 
   public async findZodiacName(param) {
-    let res = ''
-    switch (param) {
-      case 1:
-        res = 'ชวด'
-        break
-      case 2:
-        res = 'ฉลู'
-        break
-      case 3:
-        res = 'ขาล'
-        break
-      case 4:
-        res = 'เถาะ'
-        break
-      case 5:
-        res = 'มะโรง'
-        break
-      case 6:
-        res = 'มะเส็ง'
-        break
-      case 7:
-        res = 'มะเมีย'
-        break
-      case 8:
-        res = 'มะแม'
-        break
-      case 9:
-        res = 'วอก'
-        break
-      case 10:
-        res = 'ระกา'
-        break
-      case 11:
-        res = 'จอ'
-        break
-      case 12:
-        res = 'กุน'
-        break
-    }
-    return res
+    const zodiacNames = [
+      'ชวด', 'ฉลู', 'ขาล', 'เถาะ',
+      'มะโรง', 'มะเส็ง', 'มะเมีย', 'มะแม',
+      'วอก', 'ระกา', 'จอ', 'กุน'
+    ];
+    return zodiacNames[param - 1] || '';
   }
 
   //F work plz
