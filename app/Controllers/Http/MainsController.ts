@@ -19,7 +19,7 @@ export default class MainsController {
     const month_1 = parseInt(dateParts1[1])
     const year_1 = parseInt(dateParts1[2]) + 543
 
-    console.log(dateParts1)
+    // console.log(dateParts1)
 
     let compatibility = await this.compatibility(data.bdate_1, data.bdate_2) //here
     let month_num_1 = await this.findMonthNum(day_1, month_1)
@@ -356,7 +356,8 @@ export default class MainsController {
     let day_score = await this.dayScoreForCompatibility(person_1, person_2)
     let month_score = await this.monthScoreForCompatibility(person_1, person_2)
     let year_score = await this.yearScoreForCompatibility(person_1, person_2)
-    let result = day_score * 0.75 + month_score + year_score * 1.3
+    // let result = day_score * 0.75 + month_score + year_score * 1.3
+    let result = day_score + month_score + year_score
     return result
   }
 
